@@ -48,9 +48,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("unable to get cpu info: %v", err)
 	}
-	for k, v := range u1 {
-		fmt.Printf("%d: %f\n", k, v)
-	}
+
 	for n, i := range jinfo {
 		if v, ok := u1[int(i.Pid)]; ok {
 			jinfo[n].Cpu = v
@@ -61,7 +59,7 @@ func main() {
 		return jinfo[i].Cpu > jinfo[j].Cpu
 	})
 	for _, i := range jinfo {
-		fmt.Printf("threradd %d, nid %s, name %s, cpu %f\n", i.Pid, i.Nid, i.Name, i.Cpu)
+		fmt.Printf("thread %d, nid %s, name [%s], cpu %f\n", i.Pid, i.Nid, i.Name, i.Cpu)
 	}
 
 }
@@ -205,7 +203,7 @@ func makeJinfo(p []string) *[]Jinfo {
 }
 
 func nid2pid(s string) int32 {
-	n, err := strconv.ParseInt(s, 16, 64)
+	n, err := convertNid(s)
 	if err != nil {
 		return 0
 	}
@@ -216,7 +214,7 @@ func extractName(l string) (string, error) {
 	if len(fields) > 1 && fields[0] == "" && fields[1] != "" {
 		return fields[1], nil
 	}
-	return "", fmt.Errorf("invalid strrinig found")
+	return "", fmt.Errorf("invalid string found")
 
 }
 func extractNid(l string) (string, error) {
