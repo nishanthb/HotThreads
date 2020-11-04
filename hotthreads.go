@@ -64,7 +64,7 @@ func main() {
 
 }
 
-// takex a pid and returns a nid
+// takes a pid and returns a nid
 func convertPid(p int32) string {
 	//return fmt.Sprintf("%x", p)
 	return strconv.FormatInt(int64(p), 16)
@@ -78,6 +78,7 @@ func convertNid(s string) (int32, error) {
 	}
 	return int32(n), nil
 }
+
 func getcpu(threads map[int32]*cpu.TimesStat) (map[int]float64, error) {
 	dm := make(map[int]float64, 0)
 	for k, v := range threads {
@@ -156,21 +157,7 @@ func getInfo(s string) []Jinfo {
 	return *jinfo
 }
 
-/*
-func main() {
-	b, err := ioutil.ReadFile("paragraph.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	p := makePara(string(b))
-	fmt.Println(len(p))
 
-	jinfo := makeJinfo(p)
-	for _, i := range *jinfo {
-		fmt.Printf("================>\n Nid: %s\nStatus: %s\nPid: %d\nValue:%s\n =================\n\n", i.Nid, i.Status, i.Pid, i.Value)
-	}
-}
-*/
 
 func makeJinfo(p []string) *[]Jinfo {
 	m := make([]Jinfo, 0)
@@ -209,6 +196,7 @@ func nid2pid(s string) int32 {
 	}
 	return int32(n)
 }
+
 func extractName(l string) (string, error) {
 	fields := strings.Split(l, `"`)
 	if len(fields) > 1 && fields[0] == "" && fields[1] != "" {
@@ -217,6 +205,7 @@ func extractName(l string) (string, error) {
 	return "", fmt.Errorf("invalid string found")
 
 }
+
 func extractNid(l string) (string, error) {
 	fields := strings.Fields(l)
 	for _, field := range fields {
@@ -242,6 +231,7 @@ func extractStatus(l string) (string, error) {
 	}
 	return status, nil
 }
+
 func makePara(s string) []string {
 	var l string
 	var paras []string
